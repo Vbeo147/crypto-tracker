@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import React, { useState, useEffect } from "react";
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 0 20px;
+  max-width: 480px;
+  margin: 0 auto;
+`;
 
 const Header = styled.header`
   height: 10vh;
@@ -23,7 +28,8 @@ const Coin = styled.li`
   a {
     padding: 20px;
     transition: color 0.2s ease-in;
-    display: block;
+    display: flex;
+    align-items: center;
   }
   &:hover {
     a {
@@ -38,20 +44,68 @@ const Title = styled.h1`
   user-select: none;
 `;
 
+const Loader = styled.span`
+  text-align: center;
+  display: block;
+  font-size: 26px;
+  font-weight: bold;
+`;
+
+const Img = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  margin-right: 10px;
+`;
+
+interface CoinInterface {
+  id: string;
+  name: string;
+  symbol: string;
+  rank: number;
+  is_new: boolean;
+  is_active: boolean;
+  type: string;
+}
+
 function Coins() {
-  const arr = new Array(5);
+  const [coins, setCoins] = useState<CoinInterface[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("https://api.coinpaprika.com/v1/coins");
+      const json = await response.json();
+      setCoins(json.slice(0, 100));
+      setLoading(false);
+    })();
+  }, []);
   return (
     <Container>
       <Header>
         <Title>Coin</Title>
       </Header>
-      <CoinsList>
-        {arr.fill("").map((item, index) => (
-          <Coin key={index}>
-            <Link to={`/${index}`}>{index} &rarr;</Link>
-          </Coin>
-        ))}
-      </CoinsList>
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <CoinsList>
+          {coins.map((coin) => (
+            <Coin key={coin.id}>
+              <Link
+                to={{
+                  pathname: `${coin.id}`,
+                  state: { name: coin.name },
+                }}
+              >
+                <Img
+                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                  alt=""
+                />
+                {coin.name} &rarr;
+              </Link>
+            </Coin>
+          ))}
+        </CoinsList>
+      )}
     </Container>
   );
 }
