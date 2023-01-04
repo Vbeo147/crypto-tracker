@@ -137,6 +137,7 @@ body {
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 `;
