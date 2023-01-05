@@ -72,7 +72,7 @@ interface ICoin {
 
 function Coins() {
   // React Query는 데이터를 유지하기 때문에.
-  // 코인정보 페이지에서 홈으로 갈때 리렌더링 되던 문제를 보완할 수 있다.
+  // 코인정보 페이지에서 홈으로 갈때 api 리로딩 되던 문제를 보완할 수 있다.
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
   return (
     <Container>
