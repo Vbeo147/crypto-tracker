@@ -21,15 +21,6 @@ function Chart({ coinId }: CharProps) {
   const { isLoading, data } = useQuery<IChartData[]>(["ohlcv", coinId], () =>
     getchCoinHistory(coinId)
   );
-  console.log(
-    data?.map((i) => {
-      const ItemArr = [i.open, i.high, i.low, i.close];
-      return {
-        x: new Intl.DateTimeFormat("ko-KR").format(i.time_close),
-        y: ItemArr.map((c) => Number(c)),
-      };
-    }) ?? []
-  );
   return (
     <div>
       {isLoading ? (
@@ -42,17 +33,16 @@ function Chart({ coinId }: CharProps) {
               name: "Price",
               data:
                 data?.map((i) => {
-                  const ItemArr = [i.open, i.high, i.low, i.close];
+                  const ohlcv = [i.open, i.high, i.low, i.close];
                   return {
                     x: new Date(i.time_close),
-                    y: ItemArr.map((c) => Number(c)),
+                    y: ohlcv.map((c) => Number(c)),
                   };
                 }) ?? [],
             },
           ]}
           options={{
             chart: {
-              type: "candlestick",
               width: 500,
               height: 500,
               toolbar: { show: false },

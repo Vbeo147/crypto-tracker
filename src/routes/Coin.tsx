@@ -7,11 +7,11 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import Price from "./Price";
 import Chart from "./Chart";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -131,23 +131,25 @@ interface ITickers {
   first_data_at: string;
   last_updated: string;
   quotes: {
-    ath_date: string;
-    ath_price: number;
-    market_cap: number;
-    market_cap_change_24h: number;
-    percent_change_1h: number;
-    percent_change_1y: number;
-    percent_change_6h: number;
-    percent_change_7d: number;
-    percent_change_12h: number;
-    percent_change_15m: number;
-    percent_change_24h: number;
-    percent_change_30d: number;
-    percent_change_30m: number;
-    percent_from_price_ath: number;
-    price: number;
-    volume_24h: number;
-    volume_24h_change_24h: number;
+    USD: {
+      ath_date: string;
+      ath_price: number;
+      market_cap: number;
+      market_cap_change_24h: number;
+      percent_change_1h: number;
+      percent_change_1y: number;
+      percent_change_6h: number;
+      percent_change_7d: number;
+      percent_change_12h: number;
+      percent_change_15m: number;
+      percent_change_24h: number;
+      percent_change_30d: number;
+      percent_change_30m: number;
+      percent_from_price_ath: number;
+      price: number;
+      volume_24h: number;
+      volume_24h_change_24h: number;
+    };
   };
 }
 
@@ -162,11 +164,17 @@ function Coin() {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<ITickers>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    { refetchInterval: 5000 }
   );
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? null : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {state?.name ? state.name : loading ? null : infoData?.name}
@@ -186,8 +194,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>{tickersData?.quotes.USD.price.toFixed(2)}</span>
             </OverviewItem>
           </Overview>
           <Description title={infoData?.description}>
