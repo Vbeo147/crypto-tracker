@@ -1,6 +1,15 @@
-import { useLocation, useParams } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  useLocation,
+  useParams,
+  Link,
+  useRouteMatch,
+} from "react-router-dom";
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
+import Price from "./Price";
+import Chart from "./Chart";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -27,6 +36,55 @@ const Loader = styled.span`
   display: block;
   font-size: 26px;
   font-weight: bold;
+`;
+
+const Overview = styled.div`
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+`;
+
+const OverviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span:first-child {
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+`;
+
+const Description = styled.p`
+  margin: 20px 0px;
+`;
+
+const TabContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+  cursor: pointer;
+`;
+
+const Tab = styled.div<{ isActive: boolean }>`
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  width: 40%;
+  height: auto;
+  border-radius: 8px;
+  color: ${(props) =>
+    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  a {
+    display: block;
+    padding: 11px 0;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+  }
 `;
 
 interface RouteParams {
@@ -97,6 +155,8 @@ function Coin() {
   const [priceInfo, setPriceInfo] = useState<PriceData>();
   const { coinId } = useParams<RouteParams>();
   const { state } = useLocation<RouteState>();
+  const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useRouteMatch("/:coinId/chart");
   useEffect(() => {
     (async () => {
       const infoData = await (
@@ -109,13 +169,61 @@ function Coin() {
       setPriceInfo(priceData);
       setLoading(false);
     })();
-  }, []);
+  }, [coinId]);
   return (
     <Container>
       <Header>
-        <Title>{state?.name}</Title>
+        <Title>{state?.name ? state.name : loading ? null : info?.name}</Title>
       </Header>
-      {loading ? <Loader>Loading...</Loader> : null}
+      {loading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Overview>
+            <OverviewItem>
+              <span>Rank:</span>
+              <span>{info?.rank}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Symbol:</span>
+              <span>${info?.symbol}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Open Source:</span>
+              <span>{info?.open_source ? "Yes" : "No"}</span>
+            </OverviewItem>
+          </Overview>
+          <Description title={info?.description}>
+            {info?.description.slice(0, 300)}
+          </Description>
+          <Overview>
+            <OverviewItem>
+              <span>Total Suply:</span>
+              <span>{priceInfo?.total_supply}</span>
+            </OverviewItem>
+            <OverviewItem>
+              <span>Max Supply:</span>
+              <span>{priceInfo?.max_supply}</span>
+            </OverviewItem>
+          </Overview>
+          <TabContainer>
+            <Tab isActive={chartMatch !== null}>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
+            </Tab>
+            <Tab isActive={priceMatch !== null}>
+              <Link to={`/${coinId}/price`}>Price</Link>
+            </Tab>
+          </TabContainer>
+          <Switch>
+            <Route path={`/${coinId}/price`}>
+              <Price />
+            </Route>
+            <Route path={`/${coinId}/chart`}>
+              <Chart />
+            </Route>
+          </Switch>
+        </>
+      )}
     </Container>
   );
 }
