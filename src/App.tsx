@@ -1,6 +1,8 @@
 import Router from "./Router";
-import { createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { darkTheme, lightTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
@@ -143,12 +145,29 @@ a {
 
 `;
 
+const ToggleBtn = styled.button`
+  position: fixed;
+  left: 6%;
+  top: 6%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 30px;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <ToggleBtn onClick={toggleDark}>{isDark ? "🌚" : "🌞"}</ToggleBtn>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </ThemeProvider>
     </>
   );
 }

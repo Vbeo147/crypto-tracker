@@ -24,7 +24,7 @@ const CoinsList = styled.ul`
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 15px;
   margin-bottom: 20px;
   a {
@@ -44,6 +44,7 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
   user-select: none;
+  filter: drop-shadow(0 0 0.6rem ${(props) => props.theme.accentColor});
 `;
 
 const Loader = styled.span`

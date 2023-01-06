@@ -35,11 +35,15 @@ const PriceContainer = styled.div<{ isMinus: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   width: 60%;
+  color: white;
+  font-weight: bold;
+  background-color: ${(props) => props.theme.CoinBgColor};
+  padding: 10px;
+  border-radius: 10px;
   div:first-child {
     font-size: 20px;
-    font-weight: bold;
   }
   div:last-child {
     color: ${(props) => (props.isMinus ? props.theme.accentColor : "red")};
@@ -47,43 +51,37 @@ const PriceContainer = styled.div<{ isMinus: boolean }>`
 `;
 
 function Price({ priceData }: IPrice) {
+  const Percent30m = priceData?.USD.percent_change_30m;
+  const Percent1h = priceData?.USD.percent_change_1h;
+  const Percent12h = priceData?.USD.percent_change_12h;
+  const Percent24h = priceData?.USD.percent_change_24h;
+  const Percent7d = priceData?.USD.percent_change_7d;
+  const Percent30d = priceData?.USD.percent_change_30d;
   return (
     <Container>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_30m as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent30m as number) > 0)}>
         <div>30m</div>
-        <div>{`${priceData?.USD.percent_change_30m}%`}</div>
+        <div>{`${Percent30m}%`}</div>
       </PriceContainer>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_1h as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent1h as number) > 0)}>
         <div>1h</div>
-        <div>{`${priceData?.USD.percent_change_1h}`}</div>
+        <div>{`${Percent1h}`}</div>
       </PriceContainer>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_12h as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent12h as number) > 0)}>
         <div>12h</div>
-        <div>{`${priceData?.USD.percent_change_12h}`}</div>
+        <div>{`${Percent12h}`}</div>
       </PriceContainer>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_24h as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent24h as number) > 0)}>
         <div>1d</div>
-        <div>{`${priceData?.USD.percent_change_24h}%`}</div>
+        <div>{`${Percent24h}%`}</div>
       </PriceContainer>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_7d as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent7d as number) > 0)}>
         <div>7d</div>
-        <div>{`${priceData?.USD.percent_change_7d}%`}</div>
+        <div>{`${Percent7d}%`}</div>
       </PriceContainer>
-      <PriceContainer
-        isMinus={Boolean((priceData?.USD.percent_change_30d as number) > 0)}
-      >
+      <PriceContainer isMinus={Boolean((Percent30d as number) > 0)}>
         <div>30d</div>
-        <div>{`${priceData?.USD.percent_change_30d}%`}</div>
+        <div>{`${Percent30d}%`}</div>
       </PriceContainer>
     </Container>
   );

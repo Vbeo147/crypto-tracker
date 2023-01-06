@@ -13,19 +13,24 @@ interface IChartData {
   market_cap: number;
 }
 
+interface Error {
+  error: string;
+}
+
 interface ChartProps {
   coinId: string;
 }
 
 function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IChartData[]>(["ohlcv", coinId], () =>
-    getchCoinHistory(coinId)
+  const { isLoading, data } = useQuery<IChartData[] & Error>(
+    ["ohlcv", coinId],
+    () => getchCoinHistory(coinId)
   );
   return (
     <div>
       {isLoading ? (
         "Loading chart..."
-      ) : (
+      ) : !data?.error ? (
         <ApexChart
           type="candlestick"
           series={[
@@ -54,11 +59,30 @@ function Chart({ coinId }: ChartProps) {
             title: {
               text: "CandleStick Chart",
               align: "left",
+              style: {
+                color: "black",
+              },
             },
             tooltip: {
               enabled: true,
             },
-            xaxis: { type: "datetime" },
+            xaxis: {
+              type: "datetime",
+              axisTicks: { show: true, color: "black" },
+              labels: {
+                show: true,
+                style: {
+                  colors: [
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                    "black",
+                  ],
+                },
+              },
+            },
             yaxis: { show: false },
             plotOptions: {
               candlestick: {
@@ -70,6 +94,14 @@ function Chart({ coinId }: ChartProps) {
             },
           }}
         />
+      ) : (
+        <div
+          style={{
+            textAlign: "center",
+          }}
+        >
+          {data.error}
+        </div>
       )}
     </div>
   );

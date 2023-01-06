@@ -31,6 +31,7 @@ const Title = styled.h1`
   font-size: 48px;
   color: ${(props) => props.theme.accentColor};
   user-select: none;
+  filter: drop-shadow(0 0 0.6rem ${(props) => props.theme.accentColor});
 `;
 
 const Loader = styled.span`
@@ -43,7 +44,8 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.CoinBgColor};
+  color: white;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -73,13 +75,12 @@ const TabContainer = styled.div`
 `;
 
 const Tab = styled.div<{ isActive: boolean }>`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.CoinBgColor};
   text-align: center;
   width: 40%;
   height: auto;
   border-radius: 8px;
-  color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
+  color: ${(props) => (props.isActive ? props.theme.accentColor : "white")};
   a {
     display: block;
     padding: 11px 0;
@@ -93,7 +94,8 @@ const Home = styled.div`
   margin: 0px 0px 40px 0px;
   text-align: center;
   font-size: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.CoinBgColor};
+  color: white;
   border-radius: 10px;
   cursor: pointer;
   a {
