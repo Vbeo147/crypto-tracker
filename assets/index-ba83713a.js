@@ -112,7 +112,7 @@ Error generating stack: `+f.message+`
   div:last-child {
     color: ${e=>e.isMinus?e.theme.accentColor:"red"};
   }
-`;function K0({priceData:e}){const n=e==null?void 0:e.USD.percent_change_30m,a=e==null?void 0:e.USD.percent_change_1h,l=e==null?void 0:e.USD.percent_change_12h,h=e==null?void 0:e.USD.percent_change_24h,f=e==null?void 0:e.USD.percent_change_7d,b=e==null?void 0:e.USD.percent_change_30d;return qe(Z0,{children:[qe(An,{isMinus:Boolean(n>0),children:[ge("div",{children:"30m"}),ge("div",{children:`${n}%`})]}),qe(An,{isMinus:Boolean(a>0),children:[ge("div",{children:"1h"}),ge("div",{children:`${a}`})]}),qe(An,{isMinus:Boolean(l>0),children:[ge("div",{children:"12h"}),ge("div",{children:`${l}`})]}),qe(An,{isMinus:Boolean(h>0),children:[ge("div",{children:"1d"}),ge("div",{children:`${h}%`})]}),qe(An,{isMinus:Boolean(f>0),children:[ge("div",{children:"7d"}),ge("div",{children:`${f}%`})]}),qe(An,{isMinus:Boolean(b>0),children:[ge("div",{children:"30d"}),ge("div",{children:`${b}%`})]})]})}var bg={},zs={},J0={get exports(){return zs},set exports(e){zs=e}};/*!
+`;function K0({priceData:e}){const n=e==null?void 0:e.USD.percent_change_30m,a=e==null?void 0:e.USD.percent_change_1h,l=e==null?void 0:e.USD.percent_change_12h,h=e==null?void 0:e.USD.percent_change_24h,f=e==null?void 0:e.USD.percent_change_7d,b=e==null?void 0:e.USD.percent_change_30d,w=A=>Boolean(A>=0);return qe(Z0,{children:[qe(An,{isMinus:w(n),children:[ge("div",{children:"30m"}),ge("div",{children:`${n}%`})]}),qe(An,{isMinus:w(a),children:[ge("div",{children:"1h"}),ge("div",{children:`${a}%`})]}),qe(An,{isMinus:w(l),children:[ge("div",{children:"12h"}),ge("div",{children:`${l}%`})]}),qe(An,{isMinus:w(h),children:[ge("div",{children:"1d"}),ge("div",{children:`${h}%`})]}),qe(An,{isMinus:Boolean(f>0),children:[ge("div",{children:"7d"}),ge("div",{children:`${f}%`})]}),qe(An,{isMinus:w(b),children:[ge("div",{children:"30d"}),ge("div",{children:`${b}%`})]})]})}var bg={},zs={},J0={get exports(){return zs},set exports(e){zs=e}};/*!
  * ApexCharts v3.36.2
  * (c) 2018-2022 ApexCharts
  * Released under the MIT License.
@@ -1017,4 +1017,4 @@ a {
   font-size: 30px;
   background-color: transparent;
   cursor: pointer;
-`;function hw(){const[e,n]=ut.useState(!1);return ge(Fd,{children:qe(s0,{theme:e?ow:lw,children:[ge(uw,{onClick:()=>n(l=>!l),children:e?"🌚":"🌞"}),ge(cw,{}),ge(aw,{}),ge(lc.ReactQueryDevtools,{initialIsOpen:!1})]})})}const dw=new E0;Jo.createRoot(document.getElementById("root")).render(ge(R0,{client:dw,children:ge(hw,{})}));
+`;function hw(){const[e,n]=ut.useState(!0);return ge(Fd,{children:qe(s0,{theme:e?ow:lw,children:[ge(uw,{onClick:()=>n(l=>!l),children:e?"🌚":"🌞"}),ge(cw,{}),ge(aw,{}),ge(lc.ReactQueryDevtools,{initialIsOpen:!1})]})})}const dw=new E0;Jo.createRoot(document.getElementById("root")).render(ge(R0,{client:dw,children:ge(hw,{})}));
