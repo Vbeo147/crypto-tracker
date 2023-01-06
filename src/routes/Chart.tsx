@@ -13,11 +13,11 @@ interface IChartData {
   market_cap: number;
 }
 
-interface CharProps {
+interface ChartProps {
   coinId: string;
 }
 
-function Chart({ coinId }: CharProps) {
+function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IChartData[]>(["ohlcv", coinId], () =>
     getchCoinHistory(coinId)
   );

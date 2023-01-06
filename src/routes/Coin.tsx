@@ -89,6 +89,19 @@ const Tab = styled.div<{ isActive: boolean }>`
   }
 `;
 
+const Home = styled.div`
+  margin: 0px 0px 40px 0px;
+  text-align: center;
+  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  cursor: pointer;
+  a {
+    display: block;
+    padding: 10px;
+  }
+`;
+
 interface RouteParams {
   coinId: string;
 }
@@ -180,6 +193,9 @@ function Coin() {
           {state?.name ? state.name : loading ? null : infoData?.name}
         </Title>
       </Header>
+      <Home>
+        <Link to="/">Home</Link>
+      </Home>
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -221,7 +237,7 @@ function Coin() {
           </TabContainer>
           <Switch>
             <Route path={`/${coinId}/price`}>
-              <Price />
+              <Price priceData={tickersData?.quotes} />
             </Route>
             <Route path={`/${coinId}/chart`}>
               <Chart coinId={coinId} />
