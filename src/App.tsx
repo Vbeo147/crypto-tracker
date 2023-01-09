@@ -2,7 +2,8 @@ import Router from "./Router";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
@@ -158,12 +159,14 @@ const ToggleBtn = styled.button`
 `;
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const toggleDark = () => setIsDark((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom);
+  const toggleDark = useSetRecoilState(isDarkAtom);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <ToggleBtn onClick={toggleDark}>{isDark ? "🌚" : "🌞"}</ToggleBtn>
+        <ToggleBtn onClick={() => toggleDark((prev) => !prev)}>
+          {isDark ? "🌚" : "🌞"}
+        </ToggleBtn>
         <GlobalStyle />
         <Router />
         <ReactQueryDevtools initialIsOpen={false} />

@@ -57,21 +57,22 @@ function Price({ priceData }: IPrice) {
   const Percent24h = priceData?.USD.percent_change_24h;
   const Percent7d = priceData?.USD.percent_change_7d;
   const Percent30d = priceData?.USD.percent_change_30d;
+  const isMinusFunc = (target: number) => Boolean(target >= 0);
   return (
     <Container>
-      <PriceContainer isMinus={Boolean((Percent30m as number) > 0)}>
+      <PriceContainer isMinus={isMinusFunc(Percent30m as number)}>
         <div>30m</div>
         <div>{`${Percent30m}%`}</div>
       </PriceContainer>
-      <PriceContainer isMinus={Boolean((Percent1h as number) > 0)}>
+      <PriceContainer isMinus={isMinusFunc(Percent1h as number)}>
         <div>1h</div>
-        <div>{`${Percent1h}`}</div>
+        <div>{`${Percent1h}%`}</div>
       </PriceContainer>
-      <PriceContainer isMinus={Boolean((Percent12h as number) > 0)}>
+      <PriceContainer isMinus={isMinusFunc(Percent12h as number)}>
         <div>12h</div>
-        <div>{`${Percent12h}`}</div>
+        <div>{`${Percent12h}%`}</div>
       </PriceContainer>
-      <PriceContainer isMinus={Boolean((Percent24h as number) > 0)}>
+      <PriceContainer isMinus={isMinusFunc(Percent24h as number)}>
         <div>1d</div>
         <div>{`${Percent24h}%`}</div>
       </PriceContainer>
@@ -79,7 +80,7 @@ function Price({ priceData }: IPrice) {
         <div>7d</div>
         <div>{`${Percent7d}%`}</div>
       </PriceContainer>
-      <PriceContainer isMinus={Boolean((Percent30d as number) > 0)}>
+      <PriceContainer isMinus={isMinusFunc(Percent30d as number)}>
         <div>30d</div>
         <div>{`${Percent30d}%`}</div>
       </PriceContainer>
